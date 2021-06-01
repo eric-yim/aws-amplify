@@ -72,7 +72,7 @@
 
 <style>
 header.masthead{
-  min-height:10vh;max-height:50vh;padding-top:15vh;padding-bottom:0;
+  min-height:10vh;max-height:40vh;padding-top:18vh;padding-bottom:0;
   }
 
 
@@ -86,11 +86,25 @@ header.masthead{
       <div class="row h-100">
         <div class="col-lg-12 my-auto">
           <div class="header-content mx-auto">
-          
-            <h1 class="mb-5 text-center">Approximating Cardiovascular Metrics with Neural Networks</h1>
-          
+
+    	     <h1 class="mb-5">Contact Us</h1>
+
+
+
+
+
+
+
+
+
+
+
           </div>
         </div>
+
+
+
+
 
       </div>
     </div>
@@ -104,62 +118,37 @@ header.masthead{
           <div class="device ">
 
           <!-- START BLOCK HERE-->
-          
-            <style>
-.center_img{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 30%;
-    margin-bottom:20px;
-  }  
+
+<style>
+    .styled-form label{display:none;}
+    .styled-form input,.styled-form textarea{width:100%;}
+    .btn{background-color:#843d89}
 </style>
-          <p>When planning treatment, medical doctors can obtain cross-sectional images of blood vessels. However, they often lack specific metrics, such as wall shear stress, when making decisions. These metrics, which are directly related to medical outcomes, can be obtained through cardiovascular simulation. Running a simulation is time consuming and expensive and is therefore not a feasible option for most practictioners. Here, we discuss using a neural network to approximate the wall shear stress, so that important metrics can be extracted from the cross-sectional image.
-          </p>
-<div style="text-align:center;margin-bottom:20px">
-<img class='center_img' style='width:70%' src="/static/projects/images/sample_wss.png">
-<figcaption style="text-align:center;">Results of a Heavily Constricted Vessel</figcaption>
-</div>
-<h2>Setting Up the Experiment</h2>
-<p>
-We construct a model of healthy coronary artery. We alter the middle contour of this artery programmatically to replicate various degrees of plaque build up, which produce various cross-sectional shapes. From each alteration of the artery, we construct a model and mesh for simulation. We then run blood flow simulations on all the models to obtain each model's wall shear stress.</p>
-
 <div class='row'>
-  <div class='col-6'>
-  <img src="/static/projects/images/sv-image1.png" class="center_img" style="width:60%;">
+<div class='col-12 col-sm-8 offset-sm-2 text-center styled-form'>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script>
+        function onSubmit(token) {
+          document.getElementById("demo-form").submit();
+        }
+      </script>
+<form id="demo-form" method="post">
+    <input type="hidden" name="csrfmiddlewaretoken" value="Y7H14SphNnFxLnS4JdyU8ZVwN89B1s8KxZxeZdPrKq0cjeMwj4p7tR8w3sXZG7LV">
+    <p><label for="id_subject">Subject:</label> <input type="text" name="subject" placeholder="Your name" class="form-control" required id="id_subject"></p>
+<p><label for="id_from_email">From email:</label> <input type="text" name="from_email" placeholder="Your email" class="form-control" required id="id_from_email"></p>
+<p><label for="id_message">Message:</label> <textarea name="message" cols="40" rows="10" placeholder="Your message" class="form-control" required id="id_message">
+</textarea></p>
+    
+    <div class="form-actions">
 
-  </div>
-  <div class='col-6'>
-  <img src="/static/projects/images/sv-image2.png" class="center_img" style="width:60%;">
-  </div>
-  <div class='col-12'>
-  <figcaption style="text-align:center;">A Healthy Coronary Artery</figcaption></div>
+      <button class="g-recaptcha btn btn-outline btn-xl" 
+        data-sitekey="6Lf0BdoZAAAAAJYofvPj-9ecUIc_bZzoKQZaZUlB" 
+        data-callback='onSubmit' 
+        data-action='submit'>Submit</button>
+    </div>
+</form>
 </div>
-
-
-<h2>Training the Neural Network</h2>
-<p>Now, we have a dataset upon which we can train a neural network! The input is the cross-sectional image and the output is the wall shear stress.</p>
-
-
-<div style="text-align:center;margin-bottom:20px">
-<img src="/static/projects/images/wss_best_fit.png">
-<figcaption style="text-align:center;">Scaled Wall Shear Stress vs. Area Stenosis</figcaption>
-</div>
-
-<p>We find there is an exponential relationship between stenosis (blocked) area and wall shear stress. If given the wall shear stress, we can use the exponentially relationship to get a ball-park estimate for wall shear stress. Therefore, our neural is specifically predicting the deviation from the exponential relationship based on the cross-sectional shape.</p>
-
-<div style="text-align:center;margin-bottom:20px">
-<img class="center_img" style="width:90%" src="/static/projects/images/sv-flowchart.png">
-<figcaption style="text-align:center;">Proposed Method</figcaption>
-</div>
-          
-<p>Hence, given the cross-sectional image, we can estimate wall shear stress.</p>
-
-
-<p>The full thesis is available <a href="https://zenodo.org/record/4748258#.YK_mx3VKiis">here</a>
-          
-
-                  
+</div>               
           <!-- ENDBLOCK -->
           </div>
         </div>
@@ -190,13 +179,11 @@ We construct a model of healthy coronary artery. We alter the middle contour of 
             <i class="fab fa-github"></i>
           </a>
         </li>
-        <!--
         <li class="list-inline-item social-google-plus">
           <a href="/contact/">
             <i class="fa fa-envelope"></i>
           </a>
         </li>
-        -->
       </ul>
     </div>
   </section>
