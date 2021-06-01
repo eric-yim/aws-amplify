@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Yim Machine Learning</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="/static/projects/bootstrap.min.css">
+
+  <!-- Custom fonts for this template -->
+  <link href="/static/projects/all_new.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/projects/simple-line-icons_new.css">
+  <link href="/static/projects/fonts/googleapis_Lato.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Catamaran.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Multi.txt" rel="stylesheet">
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="/static/projects/device-mockups.min.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/projects/new-age.min.css" rel="stylesheet">
+  <style>
+
+    header.masthead{position:relative;width:100%;padding-top:150px;padding-bottom:100px;color:#fff;background:url(/static/projects/images/bg-pattern.png),#7b4397;background:url(/static/projects/images/bg-pattern.png),linear-gradient(to left,#7b4397,#dc2430)}
+
+  .center_img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom:50px;
+  }  
+    </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="/">Yim Machine Learning</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/projects#projects">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/projects#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<style>
+header.masthead{
+  min-height:10vh;max-height:50vh;padding-top:15vh;padding-bottom:0;
+  }
+
+
+.features a{
+  color:#843d89;
+}
+</style>
+
+<header class="masthead" >
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-12 my-auto">
+          <div class="header-content mx-auto">
+          
+            <h1 class="mb-5 text-center">How to Track in Crowded Spaces</h1>
+          
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <section class="features" id="about">
+    <div class="container">
+      <!-- colors purple#7c4191#843d89 red #dd2039  -->
+      <div class="row">
+        <div class="offset-lg-1 col-lg-10 ">
+          <div class="device ">
+
+          <!-- START BLOCK HERE-->
+          
+            <style>
+    .codebox {
+        /* Below are styles for the codebox (not the code itself) */
+        border:1px solid black;
+        background-color:#EEEEFF;
+        width:300px;
+        overflow:auto;    
+        padding:10px;
+    }
+    .codebox code {
+        /* Styles in here affect the text of the codebox */
+        font-size:0.9em;
+        /* You could also put all sorts of styling here, like different font, color, underline, etc. for the code. */
+    }
+</style>
+<p>We want to know (1) how many people there are and (2) where they are moving to. With improvements in machine learning, the first item is easy. Given any still image, the state-of-the-art instance segmentation techniques can tell you where people are on screen and even separate each individual.</p>
+<p>In this article, we focus on using well-established computer vision techniques to track individuals through the video, exploiting the results of instance segmentation to make our task easier.</p>
+<img src="/static/projects/images/track_00.png" class="img-fluid center_img" alt="segmentation" style="margin-bottom:30px">
+
+<p>Our task is to estimate where people are moving on screen. This would be useful information for planning or monitoring of public areas. To do this, we don't need to track every single person, but we need to track some people. With the instance segmentation, we can know the number of people on location in any given moment, but to estimate how many people have moved through an area, we also would need to know how long the average person has stayed on screen. In other words, we need to a number of people from the time they enter the screen until the time they exit.</p>
+
+<p>With OpenCV, we have <a href="https://docs.opencv.org/master/d7/d00/tutorial_meanshift.html">modules</a> through which we can track objects from frame to frame. OpenCV's back projection and cam shift allow us to follow colors on frame. We just need to ensure that the colors on a certain person stand out enough to differentiate him or her from the rest of the crowd. Note, to get a estimate for the crowd, we don't need to track every single person. Let's just track the easy-to-track people.</p>
+<p> We can start by viewing each person found by the segmentation.</p>
+<img src="/static/projects/images/track_black.png" class="img-fluid center_img" alt="segmentation_bgless" style="margin-bottom:30px">
+<p>Now let's see how each scene looks through the back projection method. Below, six detections are shown with their back projection into the overall image.</p>
+<img src="/static/projects/images/track_joined.png" class="img-fluid center_img" alt="back_projection" style="margin-bottom:30px">
+<p>We want a back projection where the target person is clearly lit up and where few other people are lit up. The detection in the top left is a poor choice for tracking. He is wearing black, similarly to a number of people in the frame. We see that a lot of the back projection is lit up. The person in the top right seems to be a good choice for tracking due to his blue colored clothes. The person in the mid left also is a good choice because of her red hair. The other three people are poor choices much like the first person.</p>
+
+<p>In short, we choose people to track based on a low amount of pixels lit up in the back projection step. Let's track the red hair and the blue jacket.</p> 
+<img src="/static/projects/images/track_red.gif" class="img-fluid center_img" alt="person_tracking" style="margin-bottom:30px">
+<p>How do we know when we are done tracking? We can use the segmentation step a shortcut again. Upon initial detection, we look at the back projection values specifically in the segmentation area. During future tracking, if the back projection values differ from the initial values substantially, we assume this to be a new person. This can happen when our target becomes is obstructed or leaves the screen. If we cannot find our initial target for a number of frames, we stop tracking.</p>
+<img src="/static/projects/images/track_blue.gif" class="img-fluid center_img" alt="tracking_japan" style="margin-bottom:30px">
+<p>In the mess of a crowd, image segmentation first can make tracking easier.</p>
+          
+
+                  
+          <!-- ENDBLOCK -->
+          </div>
+        </div>
+	      
+
+
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <section class="contact bg-primary" id="contact">
+    <div class="container">
+      <h2>Create together!</h2>
+      <ul class="list-inline list-social">
+        <li class="list-inline-item social-facebook">
+          <a href="https://www.linkedin.com/in/yimeric/">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-twitter">
+          <a href="https://github.com/eric-yim/">
+            <i class="fab fa-github"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-google-plus">
+          <a href="/contact/">
+            <i class="fa fa-envelope"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; Yim ML 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <!-- <li class="list-inline-item">-->
+          <!--<a href="#">Privacy</a>-->
+        <!--</li> -->
+
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/projects/jquery.min.js"></script>
+  <script src="/static/projects/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/static/projects/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="/static/projects/new-age.min.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Yim Machine Learning</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="/static/projects/bootstrap.min.css">
+
+  <!-- Custom fonts for this template -->
+  <link href="/static/projects/all_new.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/projects/simple-line-icons_new.css">
+  <link href="/static/projects/fonts/googleapis_Lato.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Catamaran.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Multi.txt" rel="stylesheet">
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="/static/projects/device-mockups.min.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/projects/new-age.min.css" rel="stylesheet">
+  <style>
+
+    header.masthead{position:relative;width:100%;padding-top:150px;padding-bottom:100px;color:#fff;background:url(/static/projects/images/bg-pattern.png),#7b4397;background:url(/static/projects/images/bg-pattern.png),linear-gradient(to left,#7b4397,#dc2430)}
+
+  .center_img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom:50px;
+  }  
+    </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="/">Yim Machine Learning</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/projects#projects">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/projects#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<style>
+header.masthead{
+  min-height:10vh;max-height:50vh;padding-top:15vh;padding-bottom:0;
+  }
+
+
+.features a{
+  color:#843d89;
+}
+</style>
+
+<header class="masthead" >
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-12 my-auto">
+          <div class="header-content mx-auto">
+          
+            <h1 class="mb-5 text-center">Approximating Cardiovascular Metrics with Neural Networks</h1>
+          
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <section class="features" id="about">
+    <div class="container">
+      <!-- colors purple#7c4191#843d89 red #dd2039  -->
+      <div class="row">
+        <div class="offset-lg-1 col-lg-10 ">
+          <div class="device ">
+
+          <!-- START BLOCK HERE-->
+          
+            <style>
+.center_img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    margin-bottom:20px;
+  }  
+</style>
+          <p>When planning treatment, medical doctors can obtain cross-sectional images of blood vessels. However, they often lack specific metrics, such as wall shear stress, when making decisions. These metrics, which are directly related to medical outcomes, can be obtained through cardiovascular simulation. Running a simulation is time consuming and expensive and is therefore not a feasible option for most practictioners. Here, we discuss using a neural network to approximate the wall shear stress, so that important metrics can be extracted from the cross-sectional image.
+          </p>
+<div style="text-align:center;margin-bottom:20px">
+<img class='center_img' style='width:70%' src="/static/projects/images/sample_wss.png">
+<figcaption style="text-align:center;">Results of a Heavily Constricted Vessel</figcaption>
+</div>
+<h2>Setting Up the Experiment</h2>
+<p>
+We construct a model of healthy coronary artery. We alter the middle contour of this artery programmatically to replicate various degrees of plaque build up, which produce various cross-sectional shapes. From each alteration of the artery, we construct a model and mesh for simulation. We then run blood flow simulations on all the models to obtain each model's wall shear stress.</p>
+
+<div class='row'>
+  <div class='col-6'>
+  <img src="/static/projects/images/sv-image1.png" class="center_img" style="width:60%;">
+
+  </div>
+  <div class='col-6'>
+  <img src="/static/projects/images/sv-image2.png" class="center_img" style="width:60%;">
+  </div>
+  <div class='col-12'>
+  <figcaption style="text-align:center;">A Healthy Coronary Artery</figcaption></div>
+</div>
+
+
+<h2>Training the Neural Network</h2>
+<p>Now, we have a dataset upon which we can train a neural network! The input is the cross-sectional image and the output is the wall shear stress.</p>
+
+
+<div style="text-align:center;margin-bottom:20px">
+<img src="/static/projects/images/wss_best_fit.png">
+<figcaption style="text-align:center;">Scaled Wall Shear Stress vs. Area Stenosis</figcaption>
+</div>
+
+<p>We find there is an exponential relationship between stenosis (blocked) area and wall shear stress. If given the wall shear stress, we can use the exponentially relationship to get a ball-park estimate for wall shear stress. Therefore, our neural is specifically predicting the deviation from the exponential relationship based on the cross-sectional shape.</p>
+
+<div style="text-align:center;margin-bottom:20px">
+<img class="center_img" style="width:90%" src="/static/projects/images/sv-flowchart.png">
+<figcaption style="text-align:center;">Proposed Method</figcaption>
+</div>
+          
+<p>Hence, given the cross-sectional image, we can estimate wall shear stress.</p>
+
+
+<p>The full thesis is available <a href="https://zenodo.org/record/4748258#.YK_mx3VKiis">here</a>
+          
+
+                  
+          <!-- ENDBLOCK -->
+          </div>
+        </div>
+	      
+
+
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <section class="contact bg-primary" id="contact">
+    <div class="container">
+      <h2>Create together!</h2>
+      <ul class="list-inline list-social">
+        <li class="list-inline-item social-facebook">
+          <a href="https://www.linkedin.com/in/yimeric/">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-twitter">
+          <a href="https://github.com/eric-yim/">
+            <i class="fab fa-github"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-google-plus">
+          <a href="/contact/">
+            <i class="fa fa-envelope"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; Yim ML 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <!-- <li class="list-inline-item">-->
+          <!--<a href="#">Privacy</a>-->
+        <!--</li> -->
+
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/projects/jquery.min.js"></script>
+  <script src="/static/projects/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/static/projects/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="/static/projects/new-age.min.js"></script>
+
+</body>
+
+</html>
+
