@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Machine Learning | Putting Friends' Faces on Yours</title>
+
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" type="text/css" href="/static/projects/bootstrap.min.css">
+
+  <!-- Custom fonts for this template -->
+  <link href="/static/projects/all_new.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/static/projects/simple-line-icons_new.css">
+  <link href="/static/projects/fonts/googleapis_Lato.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Catamaran.txt" rel="stylesheet">
+  <link href="/static/projects/fonts/googleapis_Multi.txt" rel="stylesheet">
+
+  <!-- Plugin CSS -->
+  <link rel="stylesheet" href="/static/projects/device-mockups.min.css">
+
+  <!-- Custom styles for this template -->
+  <link href="/static/projects/new-age.min.css" rel="stylesheet">
+  <style>
+
+    header.masthead{position:relative;width:100%;padding-top:150px;padding-bottom:100px;color:#fff;background:url(/static/projects/images/bg-pattern.png),#7b4397;background:url(/static/projects/images/bg-pattern.png),linear-gradient(to left,#7b4397,#dc2430)}
+
+  .center_img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    margin-bottom:50px;
+  }  
+    </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Navigation -->
+  
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand js-scroll-trigger" href="/">Yim Machine Learning</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      Menu
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/#projects">Projects</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/#about">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link js-scroll-trigger" href="/#contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+<style>
+header.masthead{
+  min-height:10vh;max-height:50vh;padding-top:15vh;padding-bottom:0;
+  }
+
+
+.features a{
+  color:#843d89;
+}
+</style>
+
+<header class="masthead" >
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-lg-12 my-auto">
+          <div class="header-content mx-auto">
+          
+            <h1 class="mb-5 text-center">Putting Friends' Faces on Yours</h1>
+          
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <section class="features" id="about">
+    <div class="container">
+      <!-- colors purple#7c4191#843d89 red #dd2039  -->
+      <div class="row">
+        <div class="offset-lg-1 col-lg-10 ">
+          <div class="device ">
+
+          <!-- START BLOCK HERE-->
+          
+            <style>
+    .codebox {
+        /* Below are styles for the codebox (not the code itself) */
+        border:1px solid black;
+        background-color:#EEEEFF;
+        width:300px;
+        overflow:auto;    
+        padding:10px;
+    }
+    .codebox code {
+        /* Styles in here affect the text of the codebox */
+        font-size:0.9em;
+        /* You could also put all sorts of styling here, like different font, color, underline, etc. for the code. */
+    }
+</style>
+<p>When a friend showed me a Snapchat Lens, which could give me an "anime" look, I was impressed. But I also wanted to build a better one. See, the Lens could make my face look like a cartoon drawing, but it was still mostly my face. If I were going to morph my face, I wanted to <i>really</i> morph my face. And I wanted control. So I decided to set out and build it.</p>
+<p><b>In this article, I discuss journey of building a face-changing machine learning model and putting it in the browser.</b></p>
+<p>In the end, it wasn't exactly an "anime" face model, but perhaps with a little more work, it will be.</p>
+<p><a class="js-scroll-trigger" href="#results">Skip to results</a></p>
+<img src="/static/projects/images/style-face-video.gif" class="img-fluid center_img" alt="style face" >
+
+<h2>Start with a Literature Search</h2>
+<p>My first challenge was finding or training a machine learning model.</p>
+<p>There's a trade off between using well-tested technologies and new research. On one hand, with the current super-sonic pace of AI development, even technologies a couple years old could be very behind. On the other hand, reading a paper and trying to independently implement it feels something like assembling a jigsaw puzzle with every third piece missing.</p>
+<p><b>The best solution is to find papers with code.</b> In this way, you can use cutting-edge technology without much of the headache of coding mathematical formulas, and you get to see the engineering tricks that are omitted from the paper. For the photo-to-anime task, there are good compilations of such papers you can find through an internet search.</p>
+<p>In looking through the technologies, I kept running into a research group called <a href='https://clova.ai/ko' target="_blank">CLOVA</a> and decided to use their method <a href="https://github.com/clovaai/stargan-v2" target="_blank">StarGAN v2</a>. 
+    CLOVA has done a number of experiments, turning horses to zebras, turning cats into tigers, and of course, turning people into anime. Their StarGAN v2 demo below shows their technique to combining a style and a source image. In the Snapchat realm, the style would be what I get to look like, and the source would be what my camera captures.</p>
+<img src="/static/projects/images/style-celebahq_interpolation.gif" class="img-fluid center_img" alt="clova" style="margin-bottom:30px">
+<p>In particular, their StarGAN v2 paper discussed the task of merging human faces and of merging animal faces, each task being a separately trained model. Out of curiosity, I wondered what would happen if a model were taken out of context.</p>
+<img src="/static/projects/images/style-untrained.jpg" class="img-fluid center_img" alt="untrained domain" style="margin-bottom:30px">
+<p>Here you see what would happen if we used an animal face as the source image for the model trained only on human images. I found the result outstanding. The model tried to put a human mouth over the cat mouth and human eyes over the cat eyes. Also look at the strands of hair; these didn't come from either picture, which means something more was happening than a mere image mashup. Likely, the GAN portion of the model was using hair it had seen in training to build hair here. It looked like the model was, in essence, using the edges of the source image to place features that the GAN had learned. Imagining a final product, this would not be the traditional "deep fake," where we control the exact face of a target person, but would instead be a kind of face mixing. <b>Messing around with the model, I got an idea of how the model worked and what I could do with it.</b></p>
+<h2>Where will I deploy this model?</h2>
+<p>After settling on a StarGAN method, <b>I needed to define what I would be doing with the end model. This would inform which frameworks I would be working with.</b></p>
+<p>Here's some background information. These days, much of the machine learning world is working with one of two frameworks: Tensorflow or PyTorch. I could train my model using Python (the language I'm most comfortable with) and one of the frameworks. If I were the only one that would be using my model then I could just stick with Python and be happy. However, if I wanted other people to use my model, for example in an app or in the browser, I need to load my model with some other language. Now, let's keep in mind that <i>any</i> model can be ported to <i>any</i> user platform, but I'm human: <b>I want to port my end model over while learning as little as possible</b>.
+</p>
+<div class='row' style="margin-bottom:30px">
+    <div class='col-6'>
+        <img src="/static/projects/images/Tensorflow_logo.svg.png" class="img-fluid center_img" alt="tf" >
+
+    </div>
+    <div class='col-6'>
+        <img src="/static/projects/images/pytorch-logo.png" class="img-fluid center_img" alt="py">
+
+    </div>
+</div>
+<p>Here's the breakdown of possibilities. To deploy a model in the Snapchat developer system, you'd need to convert your model to ONNX format (a standardized ML format).
+    I'm not a big fan of ONNX because it seems to lag behind research, and converters will often be missing newer layers that exist in Tensorflow or PyTorch. I've found it notably less "buggy" to convert models with specialized converters, for example, from Tensorflow to Tensorflow.js.
+    To deploy a model in a self-made app, then I could use convert my model with Tensorflow Lite or PyTorch Mobile. I have never tried this, so hurdles here are a big question mark for me. To deploy a Tensorflow model in a browser, I could use Tensorflow.js. I could not find a Pytorch browser method with similar online tutorial resources, so if you do know how this is done, please teach me. 
+</p>
+<p>Now the question: what would I use this model for? Perhaps you have figured out by now. I've built this demo to impress the people at Snapchat. I hoped to get their attention, so they can hire me as an engineer. You might think I would therefore being deploying to the Snapchat app then, but no. For example, if I were emailing recruiters and wanted to share my demo, they would probably not go into the Snapchat app and search through the Lenses to find mine. Or maybe they would? But I figured it would be much easier if they could just click a link and see it.</p>
+<p>Therefore, if I needed to deploy my model in the browser, I needed to work with Tensorflow and Tensorflow.js.</p>
+<h2>Clouds are Elite</h2>
+<p>One detour my browser demo took was that I needed to train the model in the cloud. I do have a GPU on my desktop, and I didn't care about training speed. But the StarGAN models seemed to have enough parameters that my GPU would run out of memory with even a training batch size of two, where the code's author's default was eight. In my experience, what a model learns can be tremendously dependent on batch size, which is why I needed to find more compute power. You may think, "OK, just go pay for some," <b>but if you're a one-man band like me, you may find it hard to find access to cloud GPUs. </b>
+</p>
+<p>When I went to set up a virtual machine, I found there is a limit on the default number of GPUs I could access, and that this limit was, in fact, <i>ZERO</i>. This was true for both AWS and GCP providers. Both providers have systems for requesting an increase. Still, I estimated I needed roughly 20-30GB of GPU memory to train at the proper batch size, and AWS responds by offering 16GB instead. Perhaps I am just bad at negotiation...
+    I'm sure they have bigger fish to fry, which put me out of luck. I had no way of training a model. 
+</p>
+<p>I eventually stumbled upon a company called Lambda Labs. The types of instances available were far fewer and extra functionality (i.e. like Sagemaker) were non-existent, but this service was exactly what I was looking for. It took a few days for their best-priced GPU to free up (I checked daily), but once it was, I set up the instance, trained the model, and downloaded my files with no hitch. Now, I finally had the model I could put into the browser!</p>
+
+<h2 id="results">Now the Fun Part!</h2>
+<p>After converting models to the proper format and tinkering with the javascript (which I'm pretty bad at still... btw, what is a promise?) available in demo examples, I was able to get my demo working. 
+</p>
+<img src="/static/projects/images/style-mon.png" class="img-fluid center_img" alt="monf" >
+   <p> The <i>cool</i> part about Tensorflow.js is that it downloads the model and then uses your local hardware to run the model. This means your video camera feed is staying local, and if you have GPU your model can run faster. 
+   </p>
+   <p>    The <i>uncool</i> part about Tensorflow.js is that it downloads the model and runs on your local hardware. For me, it takes a minute to load the initial model, which is about 60MB, and it seems the model is too big to run on a mobile device.
+</p>
+
+<div class='row' style="margin-bottom:30px">
+    <div class='col-6'>
+        <img src="/static/projects/images/style-eric-female.png" class="img-fluid center_img" alt="ericf" >
+
+    </div>
+    <div class='col-6'>
+        <img src="/static/projects/images/style-eric-male.png" class="img-fluid center_img" alt="ericm">
+
+    </div>
+</div>
+
+<p>Here, you can give the page a number of style images, which determines some of the colors and textures that will be layers over the contours of your own face. My friends and I enjoyed toying with it using our faces. There's something intriguing about seeing what an AI will come up with. I laugh, "Why does it think my face is wrinkly?" just the same as if a child has drawn me a portrait.</p>
+<p><b>There are a number of dataset-related limitations that are not initially obvious.</b></p>
+<ul>
+    <li>
+        <b>Asian person images create non-asian person results.</b> I and many of my friends are Asian. However, the celebrity dataset used includes very few Asian people. If this were important to you, you could either add more Asian person images to the dataset. Alternatively, StarGAN's model allows for separating images into categories, and at deployment, you would specify from which category you are drawing.
+    </li>
+    <li>
+        <b>Females are easier to make smile.</b> It's likely that the percentage of females smiling in the dataset is greater than that of males. When testing a variety of my friends' faces, I found I could more easily make the avatar smile if the avatar were female.
+    </li>
+    <li>
+        <b>You can't blink.</b> This is something that is pretty obvious afterward, but something I hadn't thought of prior to implementing the model: if you want to give your avatar the ability to blink, you need to through a bunch of pictures into the dataset of people with their eyes closed. Of course, not many closed-eyed pictures of celebrities get circulated around.
+    </li>
+    <li>
+        <b>Images should be nice and pretty.</b> The celebrity pictures are high quality and well-lit. Sometimes when using dark, low-res picture for the style image, the model will add wrinkles to the result. This is important only for the style image input, whereas the source (camera) input need not be as babied.
+    </li>
+</ul>
+
+<p>My initial goal was to build a machine learning model which could rival Snapchat's Anime Lens. While I've not yet built an anime lens, I have taken a deep dive into the workings, capabilities, and limitations of StarGAN. I believe with little additional tweaking, the same procedures can be done using a person/anime dataset throught he domain categorization aspect of StarGAN. In the project, I've also successfully ported a model from training to deployment. Finally, and most importantly, I've built a demo that people can enjoy while bonding with their friends.</p>
+                  
+          <!-- ENDBLOCK -->
+          </div>
+        </div>
+	      
+
+
+
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+  <section class="contact bg-primary" id="contact">
+    <div class="container">
+      <h2>Create together!</h2>
+      <ul class="list-inline list-social">
+        <li class="list-inline-item social-facebook">
+          <a href="https://www.linkedin.com/in/yimeric/">
+            <i class="fab fa-linkedin"></i>
+          </a>
+        </li>
+        <li class="list-inline-item social-twitter">
+          <a href="https://github.com/eric-yim/">
+            <i class="fab fa-github"></i>
+          </a>
+        </li>
+        <!--
+        <li class="list-inline-item social-google-plus">
+          <a href="/contact/">
+            <i class="fa fa-envelope"></i>
+          </a>
+        </li>
+        -->
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; Yim ML 2020. All Rights Reserved.</p>
+      <ul class="list-inline">
+        <!-- <li class="list-inline-item">-->
+          <!--<a href="#">Privacy</a>-->
+        <!--</li> -->
+
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/projects/jquery.min.js"></script>
+  <script src="/static/projects/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="/static/projects/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="/static/projects/new-age.min.js"></script>
+
+</body>
+
+</html>
+
